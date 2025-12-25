@@ -8,8 +8,9 @@ Run:
 python src/main.py --data-root data/species --out stats --log-dir logs
 
 
-
-'''text
+## 项目目录结构
+以下是 genome_stats_full 项目的完整目录结构及文件说明：
+```plaintext
 genome_stats_full/
 ├── README.md
 │
