@@ -5,27 +5,35 @@
 ```plaintext
 genome_stats_recursive/
 ├── README.md
-└── src/
-    ├── main.py
-    ├── build_tree.py
-    ├── validate_output.py
-    ├── tree/
-    │   ├── __init__.py
-    │   └── node.py
-    ├── parsers/
-    │   ├── __init__.py
-    │   ├── fasta_scan.py
-    │   ├── gff_ensembl.py
-    │   └── vcf_stream.py
-    ├── validators/
-    │   ├── __init__.py
-    │   ├── structural.py
-    │   └── consistency.py
-    └── utils/
-        ├── __init__.py
-        ├── discovery.py
-        ├── intervals.py
-        └── naming.py
+├── src/
+│  ├── main.py
+│   ├── build_tree.py
+│   ├── validate_output.py
+│   ├── tree/
+│   │   ├── __init__.py
+│   │   └── node.py
+│   ├── parsers/
+│   │   ├── __init__.py
+│   │   ├── fasta_scan.py
+│   │   ├── gff_ensembl.py
+│   │   └── vcf_stream.py
+│   ├── validators/
+│   │   ├── __init__.py
+│   │   ├── structural.py
+│   │   └── consistency.py
+│   └── utils/
+│       ├── __init__.py
+│       ├── discovery.py
+│       ├── intervals.py
+│       └── naming.py
+│
+├──data/
+    └── <species>/
+        └── <assembly>/
+            ├── *.fa / *.fa.gz
+            ├── *.gff / *.gff3 / *.gff.gz
+            └── *.vcf / *.vcf.gz
+
 ```
 
 ## Output Tree (per species JSON)
@@ -55,5 +63,5 @@ Two validators are included:
 
 ## Run
 
-python src/main.py --data-root /path/to/data_root --out stats
+python src/main.py --data-root /path/to/data --out stats
 python src/validate_output.py --json stats/<species>.json
