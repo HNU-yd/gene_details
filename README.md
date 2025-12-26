@@ -1,44 +1,59 @@
+# Genome Statistics – Fully Recursive (Flat Layout, Strict Validation)
 
-# Genome Statistics Project
-
-This project performs hierarchical genome statistics per species using
-FASTA / GFF / VCF files, following Ensembl-style organization.
-
-Run:
-python src/main.py --data-root data/species --out stats --log-dir logs
-
-
-## 项目目录结构
+## Data Layout (no fasta/gff/vcf subfolders)
 以下是 genome_stats_full 项目的完整目录结构及文件说明：
 ```plaintext
-genome_stats_full/
+genome_stats_recursive/
 ├── README.md
-│
-├── data/
-│   └── species/
-│       └── <species_name>/
-│           ├── fasta/
-│           ├── gff/
-│           ├── vcf/
-│           └── meta.yaml
-│
-├── src/
-│   ├── main.py
-│   │
-│   ├── parsers/
-│   │   ├── fasta_parser.py     # FASTA（支持按染色体拆分）
-│   │   ├── gff_parser.py       # GFF gene/exon/CDS/UTR 结构解析
-│   │   └── vcf_parser.py       # VCF 变异位置解析
-│   │
-│   ├── stats/
-│   │   └── aggregator.py       # 层级统计树构建（核心）
-│   │
-│   ├── validators/
-│   │   ├── schema_validate.py  # JSON Schema 校验（结构级）
-│   │   └── consistency_validate.py # 数值/逻辑一致性校验
-│   │
-│   └── schema/
-│       └── genome.schema.json  # 统计结果标准定义
-│
-├── stats/   # 自动生成统计结果
-└── logs/
+└── src/
+    ├── main.py
+    ├── build_tree.py
+    ├── validate_output.py
+    ├── tree/
+    │   ├── __init__.py
+    │   └── node.py
+    ├── parsers/
+    │   ├── __init__.py
+    │   ├── fasta_scan.py
+    │   ├── gff_ensembl.py
+    │   └── vcf_stream.py
+    ├── validators/
+    │   ├── __init__.py
+    │   ├── structural.py
+    │   └── consistency.py
+    └── utils/
+        ├── __init__.py
+        ├── discovery.py
+        ├── intervals.py
+        └── naming.py
+```
+
+## Output Tree (per species JSON)
+fasta+gff+vcf统计信息结果
+```plaintext
+Species
+└── Assembly
+    └── Chromosome
+        ├── gene_union_group
+        │   └── gene
+        │       ├── exon_group
+        │       │   └── exon_segment
+        │       │       ├── cds_group -> cds_segment*
+        │       │       ├── utr_group -> utr_segment*
+        │       │       └── exon_other_group -> exon_other_segment*
+        │       └── non_exon_group -> intron_segment*
+        └── non_gene_group -> non_gene_segment*
+
+Each genomic node includes:
+- start/end/length
+- variant_count
+- missing_N_count + missing_N_runs (from FASTA)
+
+Two validators are included:
+- structural (schema-like recursive checks)
+- consistency (bounds, containment, partitioning)
+
+## Run
+
+python src/main.py --data-root /path/to/data_root --out stats
+python src/validate_output.py --json stats/<species>.json
