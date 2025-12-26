@@ -1,5 +1,4 @@
-```markdown
-# Ensembl/GFF/VCF/FASTA Genome Stats Tree — 输出字典字段说明（README）
+# Ensembl/GFF/VCF/FASTA Genome Stats Tree — 输出字典字段说明
 
 本项目会将 `data/<species>/` 下的 FASTA（参考序列）、GFF/GFF3（注释）与 VCF（变异）整合，输出分层树状统计结构，并支持：
 - 每条染色体单独输出（人类常见：GFF/VCF 按染色体拆分）
