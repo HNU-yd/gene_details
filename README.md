@@ -6,7 +6,7 @@
 genome_stats_recursive/
 ├── README.md
 ├── src/
-│  ├── main.py
+│   ├── main.py
 │   ├── build_tree.py
 │   ├── validate_output.py
 │   ├── tree/
@@ -27,7 +27,7 @@ genome_stats_recursive/
 │       ├── intervals.py
 │       └── naming.py
 │
-├──data/
+└──data/
     └── <species>/
         └── <assembly>/
             ├── *.fa / *.fa.gz
